@@ -9,6 +9,14 @@ import fish from './images/plate__fish-sticks-fries.png';
 import check from './images/check.svg';
 import chevron from './images/chevron.svg'
 
+interface menuItem {
+  name: string,
+  price: number,
+  image: string,
+  alt: string,
+  count: number
+}
+
 const menuItems = [
   {
       name: 'French Fries with Ketchup',
@@ -57,11 +65,11 @@ const menuItems = [
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [subtotal, setSubtotal] = useState(0);
-  const [tax, setTax] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [subtotal, setSubtotal] = useState('0');
+  const [tax, setTax] = useState('0');
+  const [total, setTotal] = useState('0');
 
-  const renderButton = item => {
+  const renderButton = (item: menuItem) => {
     const itemInCart = cart.find(i => i.name === item.name);
 
     if (itemInCart) {
@@ -87,14 +95,14 @@ function App() {
     
   }
 
-  const increment = item => {
+  const increment = (item: menuItem) => {
     const tempCart = [...cart];
     const itemIndex = cart.findIndex( i => i.name === item.name);
     tempCart[itemIndex].count += 1;
     setCart(tempCart);
   }
 
-  const decrement = item => {
+  const decrement = (item: menuItem) => {
     const tempCart = [...cart];
     const itemIndex = cart.findIndex( i => i.name === item.name);
     if (tempCart[itemIndex].count > 0 ){
@@ -103,7 +111,7 @@ function App() {
     }
   }
 
-  const addToCart = item => {
+  const addToCart = (item: menuItem) => {
     const itemInCart = cart.find(i => i.name === item.name);
 
     if (itemInCart) {
@@ -118,7 +126,7 @@ function App() {
     setCart([]);
   }
 
-  const remove = (item) => {
+  const remove = (item: menuItem) => {
     const tempCart = [...cart];
     const itemIndex = cart.findIndex( i => i.name === item.name);
     tempCart.splice(itemIndex, 1);
@@ -136,7 +144,7 @@ function App() {
   
     const calculateTax = () => {
       const taxRate = 0.0975;
-      setTax(Number.parseFloat(subtotal * taxRate).toFixed(2));
+      setTax((Number.parseFloat(subtotal) * taxRate).toFixed(2));
     }
   
     const calculateTotal = () => {
